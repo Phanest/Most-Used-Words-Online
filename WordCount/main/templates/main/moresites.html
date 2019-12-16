@@ -1,0 +1,23 @@
+{% extends 'main/template.html' %}
+
+{% block title %}
+    Sites
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <h2>Избери друг сајт</h2>
+        <ul>
+            {% for site in sites %}
+
+                <li><a href="/?q={{ site }}">{{ site }}</a></li>
+
+            {% endfor %}
+            <li>
+            <a href="{% url 'main:add' %}">Додади нов сајт</a>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}

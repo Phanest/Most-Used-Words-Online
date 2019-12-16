@@ -1,0 +1,23 @@
+{% extends 'main/template.html' %}
+
+{% block title %}
+    More Results
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h2><a href="{% url 'main:index' %}"><span class="glyphicon glyphicon-menu-left"></span></a></h2><h2>Повеќе Резултати</h2>
+        <ul>
+            {% for result in results %}
+                {% if type == 'именка' %}
+                    <li> {{ result.word }} {{ result.site.site }} {{ result.count }} </li>
+                {% elif type == 'name'%}
+                    <li> {{ result.name }} {{ result.site.site }} {{ result.count }}</li>
+                {% else %}
+                    <li> {{ result }} </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,167 @@
+{% extends 'main/template.html' %}
+
+{% block content %}
+    <div>
+    <div class="col-md-12 buttons-container">
+        <form action="#" method="post">
+            {% csrf_token %}
+            <h2>Прикажи ги
+            <select id="order" name="order">
+                <option value="most"
+                {% if order == 'most' %}
+                        selected
+                {% elif not order %}
+                        seleceted
+                {% endif %}
+                >највеќе</option>
+                <option value="least"
+                {% if order == 'least' %}
+                            selected
+                {% endif %}
+                >најмалку</option>
+            </select>
+            бараните
+            <select id="type" name="type">
+
+                <option value="name"
+                {% if type == 'name' %}
+                        selected
+                {% elif not type %}
+                        seleceted
+                {% endif %}
+                >имиња</option>
+
+                <option value="именка"
+                {% if type == 'именка' %}
+                        selected
+                {% endif %}
+                >именки</option>
+
+                <option value="друго"
+                {% if type == 'друго' %}
+                        selected
+                {% endif %}
+                >видови зборови</option>
+
+            </select>
+            <div id="g">
+            од
+            <select id="genderword" name="genderword">
+                <option value="e"
+                        {% if genderword == 'e' %}
+                            selected
+                        {% endif %}
+                >секој</option>
+                <option value="m"
+                {% if genderword == 'm' %}
+                            selected
+                {% endif %}
+                >машки</option>
+                <option value="f"
+                {% if genderword == 'f' %}
+                            selected
+                {% endif %}
+                >женски</option>
+                <option value="n"
+                {% if genderword == 'n' %}
+                            selected
+                {% endif %}
+                >среден</option>
+            </select>
+            род
+            </div>
+            <div id="gname">
+                со
+                <select id="gender" name="gender">
+                    <option value="u"
+                    {% if gender == 'u' %}
+                            selected
+                    {% endif %}
+                    >унисекс</option>
+                    <option value="m"
+                    {% if gender == 'm' %}
+                            selected
+                    {% endif %}
+                    >машко</option>
+                    <option value="f"
+                    {% if gender == 'f' %}
+                            selected
+                    {% endif %}
+                    >женско</option>
+                </select>
+                име
+            </div>
+            од
+            <select id="site" name="site">
+                <option value="all"
+                {% if web == 'all' %}
+                            selected
+                {% endif %}
+                >сите сајтови</option>
+                    {% if sites %}
+
+                        {% for site in sites %}
+
+                            <option value="{{ site.site }}"
+                            {% if web == site.site %}
+                            selected
+                            {% endif %}
+                            >{{ site.site }}</option>
+
+                        {% endfor %}
+
+                    {% endif %}
+                <option value="more">повеќе</option>
+            </select>
+                <button type="submit" class="btn btn-link" value="submit" name="button">
+                    <span class="glyphicon glyphicon-menu-right"></span>
+                </button>
+            </h2>
+            </form>
+    </div>
+    </div>
+
+    <div class="content">
+
+        <ul>
+            {% for result in results %}
+                {% if result == 'Нема Резултати' %}
+                    <li>{{ result }}</li>
+                {% elif type == 'именка' %}
+                    <li> {{ result.word }} {{ result.site.site }} {{ result.count }} </li>
+                {% elif type == 'name'%}
+                    <li> {{ result.name }} {{ result.site.site }} {{ result.count }}</li>
+                {% else %}
+                    <li> {{ result.0 }} {{ result.1 }} {{ result.2 }} </li>
+                {% endif %}
+            {% endfor %}
+            {% if results|length > 15 %}
+
+                <a id="more" name="more" href="{% url 'main:more' %}?{% if order %}order={{ order }}{% endif %}{% if type %}&type={{ type }}{% endif %}{% if genderword %}&genderword={{ genderword }}{% endif %}{% if gender %}&gender={{ gender }}{% endif %}{% if web %}&web={{ web }}{% endif %}">Види повеќе резултати</a>
+
+            {% endif %}
+        </ul>
+
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#type').change(function(){
+                $('#g')[$(this).val()=='именка' ? 'show' : 'hide']();
+        }).trigger('change');
+    });
+         $(document).ready(function(){
+            $('#type').change(function(){
+                $('#gname')[$(this).val()=='name' ? 'show' : 'hide']();
+        }).trigger('change');
+    });
+         $(document).ready(function () {
+           $("#site").change(function () {
+             if ($(this).val() == 'more')
+             {
+                 window.location.href = 'more/sites'
+             }
+         }).trigger('change');
+     });
+    </script>
+{% endblock %}

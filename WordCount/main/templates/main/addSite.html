@@ -1,0 +1,17 @@
+{% extends 'main/template.html' %}
+
+{% block title %}
+    Add Site
+{% endblock %}
+
+{% block content %}
+    <h2><a href="{% url 'main:index' %}"><span class="glyphicon glyphicon-menu-left"></span></a>Додади Нов Вебсајт</h2>
+    {% if error %}
+        <h5>Сајтот не е валиден</h5>
+    {% endif %}
+    <form action="#" method="POST">
+        {% csrf_token %}
+        <input id="site" name="site" type="text" placeholder="Внеси валиден вебсајт">
+        <button id="submit" value="submit" name="submit" type="submit" class="btn btn-link"><span class="glyphicon glyphicon-send"></span></button>
+    </form>
+{% endblock %}
